@@ -1,0 +1,13 @@
+services:
+  tournaments-api:
+    build: .
+    container_name: tournaments-api
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - FIREBASE_CREDENTIALS=/app/serviceAccountKey.json
+    volumes:
+      - .:/app
+      - ./serviceAccountKey.json:/app/serviceAccountKey.json:ro
+    restart: always
