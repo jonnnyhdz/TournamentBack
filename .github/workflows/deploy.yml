@@ -45,3 +45,9 @@ jobs:
           kubectl apply -f backend/k8s/deployment.yaml
           kubectl apply -f backend/k8s/service.yaml
           kubectl rollout restart deployment tournament-api-deployment
+
+      - name: 🔍 Verify deployment status
+        run: |
+          echo "Esperando que los pods se levanten..."
+          sleep 10
+          kubectl get pods -o wide
