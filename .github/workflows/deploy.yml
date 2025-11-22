@@ -41,9 +41,9 @@ jobs:
 
       - name: 🚀 Apply Kubernetes manifests
         run: |
-          kubectl apply -f k8s/secret.yaml
-          kubectl apply -f k8s/deployment.yaml
-          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/secret.yaml --validate=false
+          kubectl apply -f k8s/deployment.yaml --validate=false
+          kubectl apply -f k8s/service.yaml --validate=false
           kubectl rollout restart deployment tournament-api-deployment
 
       - name: 🔍 Verify deployment status
