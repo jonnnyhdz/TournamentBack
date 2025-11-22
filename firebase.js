@@ -1,21 +1,27 @@
 import admin from "firebase-admin";
-import fs from "fs";
 
-const keyPath = process.env.FIREBASE_CREDENTIALS || "./serviceAccountKey.json";
+// Render o cualquier servicio de deploy pasa el JSON directo en la variable de entorno
+const credentials = process.env.FIREBASE_CREDENTIALS;
 
-if (!fs.existsSync(keyPath)) {
-  console.error(`❌ No se encontró el archivo de credenciales Firebase en: ${keyPath}`);
+if (!credentials) {
+  console.error("❌ No se encontró la variable de entorno FIREBASE_CREDENTIALS");
   process.exit(1);
 }
 
-const serviceAccount = JSON.parse(fs.readFileSync(keyPath, "utf8"));
-serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, "\n");
+let serviceAccount;
+try {
+  serviceAccount = JSON.parse(credentials);
+  serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, "\n");
+} catch (error) {
+  console.error("❌ Error al parsear FIREBASE_CREDENTIALS:", error);
+  process.exit(1);
+}
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
-console.log("✅ Firebase conectado correctamente");
 
+console.log("✅ Firebase conectado correctamente");
 
 const db = admin.firestore();
 export { db };
