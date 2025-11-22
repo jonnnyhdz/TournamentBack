@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tournament-api-deployment
+  labels:
+    app: tournament-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tournament-api
+  template:
+    metadata:
+      labels:
+        app: tournament-api
+    spec:
+      containers:
+        - name: tournament-api
+          image: docker.io/jonnyhdz/tournament-api:latest  
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "4000"
+            - name: FIREBASE_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  name: firebase-secret
+                  key: serviceAccountKey.json
