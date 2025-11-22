@@ -41,10 +41,11 @@ jobs:
           kubectl config use-context docker-desktop
 
       - name: 🚀 Apply Kubernetes manifests
+        working-directory: backend
         run: |
-          kubectl apply -f backend/k8s/secret.yaml
-          kubectl apply -f backend/k8s/deployment.yaml
-          kubectl apply -f backend/k8s/service.yaml
+          kubectl apply -f k8s/secret.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
           kubectl rollout restart deployment tournament-api-deployment
 
       - name: 🔍 Verify deployment status
