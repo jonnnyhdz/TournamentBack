@@ -25,7 +25,7 @@ jobs:
       - name: 🐳 Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: backend
+          context: .
           file: backend/dockerfile
           push: true
           tags: jonnyhdz/tournament-api:latest
